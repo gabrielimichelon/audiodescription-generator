@@ -3,9 +3,8 @@ import os
 import time
 import json
 from scenedetect import detect, ContentDetector
-# from darkflow.net.build import TFNet
+from integration.darkflow.net.build import TFNet #https://github.com/thtrieu/darkflow
 from parser import Parser
-
 
 class ADGenerator:
     def __init__(self):
@@ -18,6 +17,7 @@ class ADGenerator:
         frames = self.analyze_shot()
         self.split_frames(frames, self.video_input)
         # print(self.final_result)
+        self.predict_midia()
 
     def write_shots(self, list_shot):
         path = self._path_exists("\shots")
@@ -25,16 +25,15 @@ class ADGenerator:
         f.write(',\n'.join(list_shot))
         f.close()
 
-    # def predict_midia():
+    def predict_midia(self):
 
+        options = {"model": "integration/cfg/yolov2.cfg", "load": "integration/bin/yolov2.weights", "threshold": 0.1}
 
-    #     options = {"model": "cfg/yolo.cfg", "load": "bin/yolo.weights", "threshold": 0.1}
+        tfnet = TFNet(options)
 
-    #     tfnet = TFNet(options)
-
-    #     imgcv = cv2.imread("./sample_img/sample_dog.jpg")
-    #     result = tfnet.return_predict(imgcv)
-    #     print(result)
+        imgcv = cv2.imread("./integration/sample_img/sample_dog.jpg")
+        result = tfnet.return_predict(imgcv)
+        print(result)
 
     def analyze_shot(self):
         scene_list = detect(self.video_input, ContentDetector())
