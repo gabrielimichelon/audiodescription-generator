@@ -42,15 +42,15 @@ def loss(self, net_out):
     size2 = [None, HW, B]
 
     # return the below placeholders
-    _probs = tf.placeholder(tf.float32, size1)
-    _confs = tf.placeholder(tf.float32, size2)
-    _coord = tf.placeholder(tf.float32, size2 + [4])
+    _probs = tf.compat.v1.placeholder(tf.float32, size1)
+    _confs = tf.compat.v1.placeholder(tf.float32, size2)
+    _coord = tf.compat.v1.placeholder(tf.float32, size2 + [4])
     # weights term for L2 loss
-    _proid = tf.placeholder(tf.float32, size1)
+    _proid = tf.compat.v1.placeholder(tf.float32, size1)
     # material calculating IOU
-    _areas = tf.placeholder(tf.float32, size2)
-    _upleft = tf.placeholder(tf.float32, size2 + [2])
-    _botright = tf.placeholder(tf.float32, size2 + [2])
+    _areas = tf.compat.v1.placeholder(tf.float32, size2)
+    _upleft = tf.compat.v1.placeholder(tf.float32, size2 + [2])
+    _botright = tf.compat.v1.placeholder(tf.float32, size2 + [2])
 
     self.placeholders = {
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
@@ -89,7 +89,7 @@ def loss(self, net_out):
     # calculate the best IOU, set 0.0 confidence for worse boxes
     iou = tf.truediv(intersect, _areas + area_pred - intersect)
     best_box = tf.equal(iou, tf.reduce_max(iou, [2], True))
-    best_box = tf.to_float(best_box)
+    best_box = tf.compat.v1.to_float(best_box)
     confs = tf.multiply(best_box, _confs)
 
     # take care of the weight terms
