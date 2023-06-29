@@ -7,4 +7,7 @@
 ### UERGS - Universidade Estadual do Rio Grande do Sul
 
  
-
+## Executar script
+```
+python .\controller.py -i .\src\video\ads_animacao_sem_ad.mp4 -o  .\src\results
+```
