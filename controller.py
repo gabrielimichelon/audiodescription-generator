@@ -4,8 +4,8 @@ import time
 import json
 import re
 from scenedetect import detect, ContentDetector
-from integration.darkflow.net.build import TFNet #https://github.com/thtrieu/darkflow
 from parser import Parser
+from ultralytics import YOLO
 
 class ADGenerator:
     def __init__(self):
@@ -43,18 +43,15 @@ class ADGenerator:
 
     def predict_midia(self):
 
-        options = {"model": "integration/cfg/yolov2.cfg", "load": "integration/bin/yolov2.weights", "threshold": 0.1, "gpu": 1.0}
-        options = {"model": "integration/cfg/yolov2.cfg", "threshold": 0.1, "gpu": 1.0, "train": True, "trainer": "adam", "annotations": self.label_dir}
-        tfnet = TFNet(options)
-        
-        # imgcv = cv2.imread("./integration/sample_img/sample_dog.jpg")
-        for path in self.get_list_dir():
-            print(f" PATH : {self.train_dir+path}")
-            imgcv = cv2.imread(self.train_dir+path)
+        # Carregar um modelo
+        model = YOLO( 'yolov8n.yaml' )   # construir um novo modelo a partir do zero
+        model = YOLO( 'yolov8n.pt' )   # carregar um modelo pré-treinado (recomendado para treinamento) # Usar os resultados 
 
-            result = tfnet.return_predict(imgcv)
-        
-            print(result)
+        # Uso do modelo
+        results = model.train(data= 'coco128.yaml' , epochs= 3)   # treina o modelo
+        results = model.val()   # avalia o desempenho do modelo no conjunto de validação
+        results = model('https://ultralytics.com/images/bus.jpg')   # prever em uma imagem
+        sucesso = model.export(format = 'onnx')   # exporta o modelo para o formato ONNX
 
     def analyze_shot(self):
         scene_list = detect(self.video_input, ContentDetector())
