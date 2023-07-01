@@ -2,3 +2,6 @@ opencv-python
 scenedetect[opencv]
 labelImg
 tensorflow
+ultralytics
+roboflow
+emoji
