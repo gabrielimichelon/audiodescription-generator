@@ -11,3 +11,6 @@
 ```
 python .\controller.py -i .\src\video\ads_animacao_sem_ad.mp4 -o  .\src\results
 ```
+
+Para a Anotação:
+- É necessário ter um workspace criado no [Roboflow](https://app.roboflow.com/wokspaces)

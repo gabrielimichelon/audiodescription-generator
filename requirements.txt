@@ -5,3 +5,4 @@ tensorflow
 ultralytics
 roboflow
 emoji
+json

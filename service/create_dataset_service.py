@@ -31,7 +31,7 @@ class CreateDataset:
         cap = cv2.VideoCapture(video_path)
 
         for frame in frame_list:
-            self.write_frame(cap, frame, ValidDir.path_exists("/train", self.results_out_path))
+            self.write_frame(cap, frame, ValidDir.path_exists("/train/images", self.results_out_path))
 
         cap.release()
         cv2.destroyAllWindows() # destroy all opened windows

@@ -12,16 +12,18 @@ from service.adgenerator_service import ADGenerator
 from service.parser import Parser
 from service.create_dataset_service import CreateDataset
 from service.separate_frames import SeparateFrames
+from service.annotation_service import AnnotationBoundingBox
 
 video_input = Parser().input
 results_output = Parser().output
 
 menu_options = {
-    1: f'Criar dataset para treino {emoji.emojize(":floppy_disk:")}' ,
-    2: f'Dividir frames {emoji.emojize(":scissors:")}',
-    3: f'Treinar {emoji.emojize(":mechanical_arm:")}',
-    4: f'Gerar AD {emoji.emojize(":speaking_head:")}',
-    5: f'Exit {emoji.emojize(":person_running:")}',
+    1: f'Criar dataset para treino {emoji.emojize(":floppy_disk:")} Obs: usar para datasets nunca treinados, não substitui a anotação nas imagens' ,
+    2: f'Anotação {emoji.emojize(":scissors:")}',
+    3: f'Dividir frames {emoji.emojize(":memo:")}',
+    4: f'Treinar {emoji.emojize(":mechanical_arm:")}',
+    5: f'Gerar AD {emoji.emojize(":speaking_head:")}',
+    6: f'Exit {emoji.emojize(":person_running:")}',
 }
 
 def print_menu():
@@ -33,14 +35,18 @@ def option1():
     print(f'DONE {emoji.emojize(":check_mark_button:")}\n')
 
 def option2():
+    AnnotationBoundingBox().create_job2annotation()
+    print(f'DONE {emoji.emojize(":check_mark_button:")}\n')
+
+def option3():    
     SeparateFrames().get_frames(video_input, results_output)
     print(f'DONE {emoji.emojize(":check_mark_button:")}\n')
 
-def option3():
+def option4():
     # self.create_dataset()
     print(f'DONE {emoji.emojize(":check_mark_button:")}\n')
 
-def option4():
+def option5():
     adg = ADGenerator(video_input, results_output)
     adg.video_analysis()
     print(f'DONE {emoji.emojize(":check_mark_button:")}\n')
